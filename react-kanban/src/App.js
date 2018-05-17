@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import logo from "./logo.svg";
 import "./App.css";
-import { getAllCards, addCardToDB } from "./db/cards.db";
+import { getAllCards, addCardToDB, moveCardInDB } from "./db/cards.db";
 import CardForm from "./CardForm";
 
 class Board extends React.Component {
@@ -35,6 +35,44 @@ class Board extends React.Component {
 
   getCardsByStatus(status) {
     return this.state.cards.filter(card => card.status === status);
+  }
+
+  setCard(card) {
+    this.setState({ selectedCard: card });
+  }
+
+  moveCard(direction) {
+    const selStatus = selectedCard.status;
+    const cardID = selectedCard.id;
+    let newStatus = "";
+    if (direction === "left") {
+      switch (selStatus) {
+        case "queue":
+          newStatus = "queue";
+          break;
+        case "prog":
+          newStatus = "queue";
+          break;
+        case "done":
+          newStatus = "prog";
+          break;
+      }
+    } else if (direction === "right") {
+      switch (selStatus) {
+        case "queue":
+          newStatus = "prog";
+          break;
+        case "prog":
+          newStatus = "done";
+          break;
+        case "done":
+          newStatus = "done";
+          break;
+      }
+      moveCardInDB(cardID, newStatus).then(cards => {
+        this.setState({ cards });
+      });
+    }
   }
 
   render() {
@@ -109,7 +147,12 @@ class App extends Component {
 
 function ListCards(props) {
   return props.cards.map(card => (
-    <div className="card" key={card.id} id={"card" + card.id}>
+    <div
+      onclick={setCard(card)}
+      className="card"
+      key={card.id}
+      id={"card" + card.id}
+    >
       <ul>
         <h3 className="cardTitle">{card.title}</h3>
       </ul>

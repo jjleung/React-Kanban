@@ -45,5 +45,16 @@ export const addCardToDB = card =>
     card.id = newID;
     newID++;
     cardsDB.push(card);
-    resolve(cardsDB);
+    resolve(cardsDB.slice());
   });
+
+export const moveCardInDB = (cardID, newStatus) => {
+  new Promise((resolve, reject) => {
+    cardsDB.forEach(card => {
+      if (card.id === cardID) {
+        card.status = newStatus;
+      }
+    });
+    resolve(cardsDB.slice());
+  });
+};
