@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import logo from "./logo.svg";
+// import ReactDOM from "react-dom";
+// import logo from "./logo.svg";
 import "./App.css";
 import { getAllCards, addCardToDB, moveCardInDB } from "./db/cards.db";
 import CardForm from "./CardForm";
@@ -15,6 +15,7 @@ class Board extends React.Component {
     this.addCard = this.addCard.bind(this);
     this.getCardByID = this.getCardByID.bind(this);
     this.getCardsByStatus = this.getCardsByStatus.bind(this);
+    this.setCard = this.setCard.bind(this);
   }
 
   componentDidMount() {
@@ -42,32 +43,36 @@ class Board extends React.Component {
   }
 
   moveCard(direction) {
-    const selStatus = selectedCard.status;
-    const cardID = selectedCard.id;
-    let newStatus = "";
-    if (direction === "left") {
-      switch (selStatus) {
-        case "queue":
-          newStatus = "queue";
-          break;
-        case "prog":
-          newStatus = "queue";
-          break;
-        case "done":
-          newStatus = "prog";
-          break;
-      }
-    } else if (direction === "right") {
-      switch (selStatus) {
-        case "queue":
-          newStatus = "prog";
-          break;
-        case "prog":
-          newStatus = "done";
-          break;
-        case "done":
-          newStatus = "done";
-          break;
+    if (this.state.selectedCard) {
+      const { selectedCard } = this.state;
+      const selStatus = selectedCard.status;
+      const cardID = selectedCard.id;
+      let newStatus = "";
+
+      if (direction === "left") {
+        switch (selStatus) {
+          case "queue":
+            newStatus = "queue";
+            break;
+          case "prog":
+            newStatus = "queue";
+            break;
+          case "done":
+            newStatus = "prog";
+            break;
+        }
+      } else if (direction === "right") {
+        switch (selStatus) {
+          case "queue":
+            newStatus = "prog";
+            break;
+          case "prog":
+            newStatus = "done";
+            break;
+          case "done":
+            newStatus = "done";
+            break;
+        }
       }
       moveCardInDB(cardID, newStatus).then(cards => {
         this.setState({ cards });
@@ -76,7 +81,6 @@ class Board extends React.Component {
   }
 
   render() {
-    const { cards } = this.state;
     const qCards = this.getCardsByStatus("queue");
     const pCards = this.getCardsByStatus("prog");
     const dCards = this.getCardsByStatus("done");
@@ -87,24 +91,27 @@ class Board extends React.Component {
           <div className="queue">
             <div className="colTitle">Queue</div>
             <div className="listBox" id="qList">
-              <ListCards cards={qCards} />
+              <ListCards cards={qCards} setCard={this.setCard} />
             </div>
           </div>
           <div className="prog">
             <div className="colTitle">In Progress</div>
             <div className="listBox" id="pList">
-              <ListCards cards={pCards} />
+              <ListCards cards={pCards} setCard={this.setCard} />
             </div>
           </div>
           <div className="done">
             <div className="colTitle">Done</div>
             <div className="listBox" id="dList">
-              <ListCards cards={dCards} />
+              <ListCards cards={dCards} setCard={this.setCard} />
             </div>
           </div>
         </div>
         <div className="formWrapper">
           <img
+            onClick={() => {
+              this.moveCard("left");
+            }}
             id="moveLeft"
             className="arrow"
             src="http://pixsector.com/cache/8ed3eed7/avb6b6c2625bcda563bf1.png"
@@ -115,6 +122,9 @@ class Board extends React.Component {
           </div>
 
           <img
+            onClick={() => {
+              this.moveCard("right");
+            }}
             id="moveRight"
             className="arrow"
             src="http://pixsector.com/cache/d317f9c9/avefdb1ad8fbf8d8b72a2.png"
@@ -146,9 +156,13 @@ class App extends Component {
 }
 
 function ListCards(props) {
+  const { setCard } = props;
+  console.log("props ", props);
   return props.cards.map(card => (
     <div
-      onclick={setCard(card)}
+      onClick={() => {
+        setCard(card);
+      }}
       className="card"
       key={card.id}
       id={"card" + card.id}

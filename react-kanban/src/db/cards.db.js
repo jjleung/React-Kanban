@@ -48,7 +48,7 @@ export const addCardToDB = card =>
     resolve(cardsDB.slice());
   });
 
-export const moveCardInDB = (cardID, newStatus) => {
+export const moveCardInDB = (cardID, newStatus) =>
   new Promise((resolve, reject) => {
     cardsDB.forEach(card => {
       if (card.id === cardID) {
@@ -57,4 +57,3 @@ export const moveCardInDB = (cardID, newStatus) => {
     });
     resolve(cardsDB.slice());
   });
-};
