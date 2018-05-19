@@ -7,22 +7,25 @@ html {
 }
 .App-logo {
   /* animation: App-logo-spin infinite 20s linear; */
-  height: 100px;
-  width: 110px;
+  height: 150px;
+  width: 165px;
   border-radius: 50%;
-  border: 4px solid darkgray;
+  border: 4px solid rgb(68, 68, 68);
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  /* background-color: #222; */
+  background-image: url("https://img1.etsystatic.com/199/0/11123188/il_fullxfull.1359797477_3oeb.jpg");
+  background-size: contain;
+  height: 210px;
   padding: 20px;
   color: white;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 2.8em;
   color: #fad000;
+  line-height: 0%;
 }
 
 .App-intro {
@@ -51,21 +54,24 @@ html {
   grid-column: 1;
   grid-row: 1;
   border: 1px solid black;
-  background-color: rgb(158, 158, 158);
+  /* background-color: rgb(158, 158, 158); */
+  background-color: black;
 }
 
 .prog {
   grid-column: 2;
   grid-row: 1;
   border: 1px solid black;
-  background-color: rgb(158, 158, 158);
+  /* background-color: rgb(158, 158, 158); */
+  background-color: black;
 }
 
 .done {
   grid-column: 3;
   grid-row: 1;
   border: 1px solid black;
-  background-color: rgb(158, 158, 158);
+  /* background-color: rgb(158, 158, 158); */
+  background-color: black;
 }
 
 .colTitle {

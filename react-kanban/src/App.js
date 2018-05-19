@@ -5,6 +5,7 @@ import "./App.css";
 import { getAllCards, addCardToDB, moveCardInDB } from "./db/cards.db";
 import CardForm from "./CardForm";
 const cardColor = "#fff1b3";
+const hoverColor = "#dfd19c";
 
 class Board extends React.Component {
   constructor(props) {
