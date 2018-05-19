@@ -4,13 +4,14 @@ import React, { Component } from "react";
 import "./App.css";
 import { getAllCards, addCardToDB, moveCardInDB } from "./db/cards.db";
 import CardForm from "./CardForm";
+const cardColor = "#fff1b3";
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       cards: [],
-      selectedCard: null
+      selectedCard: { title: "" }
     };
     this.addCard = this.addCard.bind(this);
     this.getCardByID = this.getCardByID.bind(this);
@@ -40,6 +41,16 @@ class Board extends React.Component {
 
   setCard(card) {
     this.setState({ selectedCard: card });
+
+    const selCardID = card.id;
+    this.state.cards.forEach(aCard => {
+      if (aCard.id === selCardID) {
+        document.getElementById(aCard.id).style.backgroundColor =
+          "rgb(255, 213, 73)";
+      } else {
+        document.getElementById(aCard.id).style.backgroundColor = cardColor;
+      }
+    });
   }
 
   moveCard(direction) {
@@ -76,6 +87,15 @@ class Board extends React.Component {
       }
       moveCardInDB(cardID, newStatus).then(cards => {
         this.setState({ cards });
+
+        this.state.cards.forEach(aCard => {
+          if (aCard.id === cardID) {
+            document.getElementById(aCard.id).style.backgroundColor =
+              "rgb(255, 213, 73)";
+          } else {
+            document.getElementById(aCard.id).style.backgroundColor = cardColor;
+          }
+        });
       });
     }
   }
@@ -84,6 +104,22 @@ class Board extends React.Component {
     const qCards = this.getCardsByStatus("queue");
     const pCards = this.getCardsByStatus("prog");
     const dCards = this.getCardsByStatus("done");
+
+    let displayStatus = "";
+    switch (this.state.selectedCard.status) {
+      case "queue":
+        displayStatus = ":  Queue";
+        break;
+      case "prog":
+        displayStatus = ":  In Progress";
+        break;
+      case "done":
+        displayStatus = ":  Done";
+        break;
+      default:
+        displayStatus = "";
+        break;
+    }
 
     return (
       <div className="boardWrapper">
@@ -107,6 +143,12 @@ class Board extends React.Component {
             </div>
           </div>
         </div>
+        <img
+          src="http://www.crschemicalcorp.com/uploads/bg_black_gradient.jpg"
+          alt=""
+          className="gradBar"
+          id="gradBar1"
+        />
         <div className="formWrapper">
           <img
             onClick={() => {
@@ -114,22 +156,34 @@ class Board extends React.Component {
             }}
             id="moveLeft"
             className="arrow"
-            src="http://pixsector.com/cache/8ed3eed7/avb6b6c2625bcda563bf1.png"
+            // src="http://pixsector.com/cache/8ed3eed7/avb6b6c2625bcda563bf1.png"
+            src="http://pixsector.com/cache/85c25e82/av668d1791f7ab43c8268.png"
             alt=""
           />
-          <div id="cardForm">
-            <CardForm addCard={this.addCard} />
+          <div id="cardDisplay">
+            <h2 id="displayText">
+              {this.state.selectedCard.title + displayStatus}
+            </h2>
           </div>
-
           <img
             onClick={() => {
               this.moveCard("right");
             }}
             id="moveRight"
             className="arrow"
-            src="http://pixsector.com/cache/d317f9c9/avefdb1ad8fbf8d8b72a2.png"
+            // src="http://pixsector.com/cache/d317f9c9/avefdb1ad8fbf8d8b72a2.png"
+            src="http://pixsector.com/cache/fdcadf05/avd5f611c08d803886a54.png"
             alt=""
           />
+        </div>
+        <img
+          src="http://www.crschemicalcorp.com/uploads/bg_black_gradient.jpg"
+          alt=""
+          className="gradBar"
+          id="gradBar2"
+        />
+        <div id="cardForm">
+          <CardForm addCard={this.addCard} />
         </div>
       </div>
     );
@@ -141,7 +195,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          {/* <img src={logo} className="App-logo" alt="logo" /> */}
           <img
             src="https://cdn.dribbble.com/users/1539273/screenshots/3889575/banana.gif"
             alt="logo"
@@ -165,7 +218,7 @@ function ListCards(props) {
       }}
       className="card"
       key={card.id}
-      id={"card" + card.id}
+      id={card.id}
     >
       <ul>
         <h3 className="cardTitle">{card.title}</h3>

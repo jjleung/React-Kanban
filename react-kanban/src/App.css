@@ -1,7 +1,10 @@
+html {
+  background-color: #3b3b3b;
+}
+
 .App {
   text-align: center;
 }
-
 .App-logo {
   /* animation: App-logo-spin infinite 20s linear; */
   height: 100px;
@@ -41,24 +44,28 @@
   grid-gap: 10px;
   grid-auto-rows: minmax(100px, auto);
   border: 1px solid black;
+  background-color: rgb(59, 59, 59);
 }
 
 .queue {
   grid-column: 1;
   grid-row: 1;
   border: 1px solid black;
+  background-color: rgb(158, 158, 158);
 }
 
 .prog {
   grid-column: 2;
   grid-row: 1;
   border: 1px solid black;
+  background-color: rgb(158, 158, 158);
 }
 
 .done {
   grid-column: 3;
   grid-row: 1;
   border: 1px solid black;
+  background-color: rgb(158, 158, 158);
 }
 
 .colTitle {
@@ -71,22 +78,36 @@
 
 .listBox {
   grid-row: 2;
-  border: 1px solid blue;
 }
 
 .card {
-  border: 3px solid yellow;
+  border: 4px solid yellow;
+  border-radius: 25px;
   margin: 10px;
   text-align: left;
+  background-color: #fff1b3;
+}
+
+.card:selection {
+  background-color: #fad000;
 }
 
 .card:hover {
-  background-color: #fff3bc;
+  background-color: #dfd19c;
 }
 
 .cardTitle {
   font-size-adjust: 1.1;
   font: bold;
+}
+
+.gradBar {
+  height: 15px;
+  width: 100vw;
+}
+
+#gradBar2 {
+  grid-row: 2;
 }
 
 .formWrapper {
@@ -97,21 +118,37 @@
   grid-column: 1;
   grid-row: 1;
   width: 33vw;
+  height: 5vw;
 }
 
-#cardForm {
+#cardDisplay {
   grid-column: 2;
   grid-row: 1;
-  border: 1px solid black;
+  border-left: 3px solid black;
+  border-right: 3px solid black;
   width: 33vw;
+  height: 5vw;
+  background-color: #f9ff00;
 }
 
 #moveRight {
   grid-row: 1;
   grid-column: 3;
   width: 33vw;
+  height: 5vw;
+}
+
+.arrow {
+  background-color: white;
 }
 
 .arrow:hover {
   background-color: rgb(255, 213, 73);
+}
+
+#cardForm {
+  color: white;
+  grid-row: 3;
+  /* border: 1px solid black; */
+  width: 100vw;
 }
